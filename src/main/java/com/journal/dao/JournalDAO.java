@@ -4,6 +4,7 @@ import com.journal.model.JournalEntry;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -39,7 +40,9 @@ public class JournalDAO {
     }
 
     public List<JournalEntry> getAllEntries() {
-        return new ArrayList<>(entries.values());
+        List<JournalEntry> list = new ArrayList<>(entries.values());
+        list.sort(Comparator.comparing(JournalEntry::getCreatedAt).reversed());
+        return list;
     }
 
     public JournalEntry getEntryById(int id) {

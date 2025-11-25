@@ -40,9 +40,6 @@ public class JournalServlet extends HttpServlet {
             case "edit":
                 showEditForm(request, response);
                 break;
-            case "delete":
-                deleteEntry(request, response);
-                break;
             case "view":
                 viewEntry(request, response);
                 break;
@@ -62,6 +59,8 @@ public class JournalServlet extends HttpServlet {
             insertEntry(request, response);
         } else if ("update".equals(action)) {
             updateEntry(request, response);
+        } else if ("delete".equals(action)) {
+            deleteEntry(request, response);
         } else {
             listEntries(request, response);
         }
@@ -81,16 +80,32 @@ public class JournalServlet extends HttpServlet {
 
     private void showEditForm(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
+        int id = parseId(request.getParameter("id"));
+        if (id == -1) {
+            response.sendRedirect(request.getContextPath() + "/journal");
+            return;
+        }
         JournalEntry entry = journalDAO.getEntryById(id);
+        if (entry == null) {
+            response.sendRedirect(request.getContextPath() + "/journal");
+            return;
+        }
         request.setAttribute("entry", entry);
         request.getRequestDispatcher("/WEB-INF/views/form.jsp").forward(request, response);
     }
 
     private void viewEntry(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
+        int id = parseId(request.getParameter("id"));
+        if (id == -1) {
+            response.sendRedirect(request.getContextPath() + "/journal");
+            return;
+        }
         JournalEntry entry = journalDAO.getEntryById(id);
+        if (entry == null) {
+            response.sendRedirect(request.getContextPath() + "/journal");
+            return;
+        }
         request.setAttribute("entry", entry);
         request.getRequestDispatcher("/WEB-INF/views/view.jsp").forward(request, response);
     }
@@ -110,7 +125,11 @@ public class JournalServlet extends HttpServlet {
 
     private void updateEntry(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
+        int id = parseId(request.getParameter("id"));
+        if (id == -1) {
+            response.sendRedirect(request.getContextPath() + "/journal");
+            return;
+        }
         String title = request.getParameter("title");
         String content = request.getParameter("content");
 
@@ -125,8 +144,26 @@ public class JournalServlet extends HttpServlet {
 
     private void deleteEntry(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
-        journalDAO.deleteEntry(id);
+        int id = parseId(request.getParameter("id"));
+        if (id != -1) {
+            journalDAO.deleteEntry(id);
+        }
         response.sendRedirect(request.getContextPath() + "/journal");
+    }
+
+    /**
+     * Safely parses an ID parameter.
+     * @param idParam the ID parameter string
+     * @return the parsed ID, or -1 if invalid
+     */
+    private int parseId(String idParam) {
+        if (idParam == null || idParam.isEmpty()) {
+            return -1;
+        }
+        try {
+            return Integer.parseInt(idParam);
+        } catch (NumberFormatException e) {
+            return -1;
+        }
     }
 }

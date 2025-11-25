@@ -78,6 +78,20 @@ public class JournalEntry implements Serializable {
         return updatedAt != null ? updatedAt.format(FORMATTER) : "";
     }
 
+    /**
+     * Returns a preview of the content, truncated to 150 characters.
+     * @return truncated content with ellipsis if longer than 150 chars
+     */
+    public String getContentPreview() {
+        if (content == null) {
+            return "";
+        }
+        if (content.length() > 150) {
+            return content.substring(0, 150) + "...";
+        }
+        return content;
+    }
+
     @Override
     public String toString() {
         return "JournalEntry{" +

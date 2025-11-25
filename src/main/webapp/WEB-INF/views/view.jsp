@@ -35,11 +35,14 @@
                 </div>
 
                 <div class="entry-actions">
-                    <a href="${pageContext.request.contextPath}/journal?action=delete&id=${entry.id}" 
-                       class="btn btn-danger"
-                       onclick="return confirm('Are you sure you want to delete this entry?')">
-                        🗑️ Delete Entry
-                    </a>
+                    <form action="${pageContext.request.contextPath}/journal" method="post" style="display:inline;">
+                        <input type="hidden" name="action" value="delete">
+                        <input type="hidden" name="id" value="${entry.id}">
+                        <button type="submit" class="btn btn-danger"
+                                onclick="return confirm('Are you sure you want to delete this entry?')">
+                            🗑️ Delete Entry
+                        </button>
+                    </form>
                 </div>
             </article>
         </main>
