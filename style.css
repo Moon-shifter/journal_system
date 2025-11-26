@@ -1,0 +1,50 @@
+h3{
+color: cornflowerblue;
+border-style: dotted;
+border-color: cornflowerblue;
+/*margin: auto;*/
+text-align: center;
+}
+
+h2{
+   color: rgb(129, 127, 255);
+   border: 2px rgb(97, 137, 143) solid;
+    text-align: center;
+    background-color: antiquewhite;
+}
+
+
+
+
+.div1{
+    margin: auto;/*定位页面中间*/
+    background-color: antiquewhite;
+    width: 60%;
+}
+
+.div2{
+   margin: auto;
+   background-color: rgb(228, 213, 194);
+   width: 50%;
+   border: 8px wheat solid;
+}
+
+.table1{
+    width: 80%;
+     margin: auto;
+     border: 3px black solid;
+     text-align: center;
+     border-collapse: collapse;
+     background-color: rgb(165, 193, 194);
+}
+
+.td1{
+   border: 1px black solid;
+
+}
+.th1{
+
+  border: 2px rebeccapurple solid;
+
+}
+
