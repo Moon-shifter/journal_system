@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
 public interface StuMapper {
     @Insert("insert into student (sno,sname, ssex, sbirth, fav, photoPath) " +
             "values (#{sno},#{sname}, #{ssex}, #{sbirth}, #{fav}, #{photoPath})")
-  public abstract   void insertStudent(Student student);
+    void insertStudent(Student student);
 }
